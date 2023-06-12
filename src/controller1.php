@@ -118,10 +118,10 @@ switch ($view ) {
         // Ключі - те, що передаємо GET - параметром
         // Значення - те, що показуємо користувачеві і частина SQL -запиту , який передаємо в модель
         $order_p = array (
-                        ’ datea '=> array ('за датою додавання - до останніх ', 'date ASC ') ,
-                        ’ dated '=> array ('за датою додавання - з останніх ', 'date DESC ') ,
-                        ’ namea '=> array ('від А до Я ', 'name ASC ') ,
-                        ’ named '=> array ('від Я до А ', 'name DESC ')
+                        ' datea '=> array ('за датою додавання - до останніх ', 'date ASC ') ,
+                        ' dated '=> array ('за датою додавання - з останніх ', 'date DESC ') ,
+                        ' namea '=> array ('від А до Я ', 'name ASC ') ,
+                        ' named '=> array ('від Я до А ', 'name DESC ')
                         ) ;
         $order_get = clear ($_GET ['order'] ) ; // Отримуємо можливий параметр сортування
         if ( array_key_exists ($order_get , $order_p )) {
@@ -151,8 +151,8 @@ switch ($view ) {
         $vys_firma_name = vys_firma_name ($category ) ; //
         $vys_posluga = vys_posluga ($category , $order_db , $start_pos , $perpage ) ; // Отримуємо масив з моделі
         $meta ['title'] = $vys_firma_name [ 0 ] ['vys_firma_name'] ;
-        if ($vys_firma_name [ 1 ] ) $meta ['title'] . = " - {$vys_firma_name [ 1 ] ['vys_firma_name'] } " ;
-        $meta ['title'] . = "|" . TITLE ;
+        if ($vys_firma_name [ 1 ] ) $meta ['title'] .= " - {$vys_firma_name [ 1 ] ['vys_firma_name'] } " ;
+        $meta ['title'] .= "|" . TITLE ;
         $meta ['description'] = " {$vys_firma_name [ 0 ] ['vys_firma_name'] } , {$vys_firma_name [ 1 ] ['vys_firma_name'] } " ;
     break ;
     

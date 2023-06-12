@@ -142,7 +142,7 @@ function filter ($category , $startquality , $endquality ) {
     if ($category OR $endquality ) {
         $predicat1 = " visible = '1 '" ;
         if ($category ) {
-            $predicat1 . = " AND docs_vys_firmaid IN ($category )";
+            $predicat1 .= " AND docs_vys_firmaid IN ($category )";
             $predicat2 = " UNION
                         ( SELECT docs_id , name , img , quality , hits , new , sale
                         FROM docs
@@ -150,11 +150,11 @@ function filter ($category , $startquality , $endquality ) {
                             (
                                 SELECT vys_firma_id FROM vys_firmas WHERE parent_id IN ($category )
                             ) AND visible = '1 '" ;
-            if ($endquality ) $predicat2 . = " AND quality BETWEEN $startquality AND $endquality " ;
-            $predicat2 . = " )";
+            if ($endquality ) $predicat2 .= " AND quality BETWEEN $startquality AND $endquality " ;
+            $predicat2 .= " )";
         }
         if ($endquality ) {
-            $predicat1 . = " AND quality BETWEEN $startquality AND $endquality " ;
+            $predicat1 .= " AND quality BETWEEN $startquality AND $endquality " ;
         }
         
         $query = " ( SELECT docs_id , name , img , quality , hits , new , sale
@@ -167,10 +167,10 @@ function filter ($category , $startquality , $endquality ) {
                 $vys_posluga [] = $row ;
             }
         } else {
-            $vys_posluga [' notfound '] = " <div class='error’> За вказаними параметрами нічого не знайдено </ div > " ;
+            $vys_posluga [' notfound '] = " <div class='error'> За вказаними параметрами нічого не знайдено </ div > " ;
         }
     } else {
-        $vys_posluga [' notfound '] = " <div class='error’> Ви не вказали параметри підбору </ div > " ;
+        $vys_posluga [' notfound '] = " <div class='error'> Ви не вказали параметри підбору </ div > " ;
     }
     return $vys_posluga ;
 }
@@ -188,12 +188,12 @@ function total_sum ($docs ) {
         $_SESSION [' Bloknot '] [$row [' docs_id '] ] [' name '] = $row [' name '] ;
         $_SESSION [' Bloknot '] [$row [' docs_id '] ] [' quality '] = $row [' quality '] ;
         $_SESSION [' Bloknot '] [$row [' docs_id '] ] [' img '] = $row [' img '] ;
-        $total_sum + = $_SESSION [' bloknot '] [$row [' docs_id '] ] [' qty '] * $row [' quality '] ;
+        $total_sum += $_SESSION [' bloknot '] [$row [' docs_id '] ] [' qty '] * $row [' quality '] ;
     }
     return $total_sum ;
 }
 function registration () {
-    $error = '' ; / / Прапор перевірки порожніх полів
+    $error = '' ; // Прапор перевірки порожніх полів
     
     $login = trim ($_POST [' login '] ) ;
     $pass = trim ($_POST [' pass '] ) ;
@@ -202,28 +202,28 @@ function registration () {
     $phone = trim ($_POST [' phone '] ) ;
     $address = trim ($_POST [' address '] ) ;
     
-    if ( empty ($login ) ) $error . = ' <li> Не вказаний логін </ li >' ;
-    if ( empty ($pass ) ) $error . = ' <li> Не вказаний пароль </ li >' ;
-    if ( empty ($name ) ) $error . = ' <li> Не вказано ПІБ </ li >' ;
-    if ( empty ($email ) ) $error . = ' <li> Не вказаний Email </ li >' ;
-    if ( empty ($phone ) ) $error . = ' <li> Не вказаний телефон </ li >' ;
-    if ( empty ($address ) ) $error . = ' <li> Не вказано адреси </ li >' ;
+    if ( empty ($login ) ) $error .= ' <li> Не вказаний логін </ li >' ;
+    if ( empty ($pass ) ) $error .= ' <li> Не вказаний пароль </ li >' ;
+    if ( empty ($name ) ) $error .= ' <li> Не вказано ПІБ </ li >' ;
+    if ( empty ($email ) ) $error  .= ' <li> Не вказаний Email </ li >' ;
+    if ( empty ($phone ) ) $error .= ' <li> Не вказаний телефон </ li >' ;
+    if ( empty ($address ) ) $error .= ' <li> Не вказано адреси </ li >' ;
     
     if ( empty ($error )) {
-        / / Якщо всі поля заповнені
-        / / Перевіряємо чи немає такого користувача в БД
+        // Якщо всі поля заповнені
+        // Перевіряємо чи немає такого користувача в БД
         $query = " SELECT customer_id FROM customers WHERE login = '" . clear ($login ) . " ' LIMIT 1 " ;
         $res = mysql_query ($query ) or die ( mysql_error ( )) ;
-        $row = mysql_num_rows ($res ) ; / / 1 - такий юзер є, 0 - немає
+        $row = mysql_num_rows ($res ) ; // 1 - такий юзер є, 0 - немає
         if ($row ) {
-            / / Якщо такий логін вже є
-            $_SESSION [' Reg '] [' res '] = " <div class='error’> Користувач з таким логіном вже зареєстрований на сайті. Введіть інший логін . </ Div > " ;
+            // Якщо такий логін вже є
+            $_SESSION [' Reg '] [' res '] = " <div class='error'> Користувач з таким логіном вже зареєстрований на сайті. Введіть інший логін . </ Div > " ;
             $_SESSION [' Reg '] [' name '] = $name ;
             $_SESSION [' Reg '] [' email '] = $email ;
             $_SESSION [' Reg '] [' phone '] = $phone ;
             $_SESSION [' Reg '] [' addres '] = $address ;
         } else {
-            / / Якщо все ок - реєструємо
+            // Якщо все ок - реєструємо
             $login = clear ($login ) ;
             $name = clear ($name ) ;
             $email = clear ($email ) ;
@@ -234,13 +234,13 @@ function registration () {
                         VALUES ( '$name ' , '$email ' , '$phone ' , '$address ' , '$login ' , '$pass ') " ;
             $res = mysql_query ($query ) or die ( mysql_error ( )) ;
             if ( mysql_affected_rows ( )> 0 ) {
-                / / Якщо запис додана
-                $_SESSION [' Reg '] [' res '] = " <div class='success’> Реєстрація пройшла успішно. </ Div > " ;
+                // Якщо запис додана
+                $_SESSION [' Reg '] [' res '] = " <div class='success'> Реєстрація пройшла успішно. </ Div > " ;
                 $_SESSION [' Auth '] [' user '] = $_POST [' name '] ;
                 $_SESSION [' Auth '] [' customer_id '] = mysql_insert_id ();
                 $_SESSION [' Auth '] [' email '] = $email ;
             } else {
-                $_SESSION [' Reg '] [' res '] = " <div class='error’> Помилка ! </ Div > " ;
+                $_SESSION [' Reg '] [' res '] = " <div class='error'> Помилка ! </ Div > " ;
                 $_SESSION [' Reg '] [' login '] = $login ;
                 $_SESSION [' Reg '] [' name '] = $name ;
                 $_SESSION [' Reg '] [' email '] = $email ;
@@ -249,8 +249,8 @@ function registration () {
             }
         }
     } else {
-        / / Якщо не заповнені обов’язкові поля
-        $_SESSION [' Reg '] [' res '] = " <div class='error’> Чи не заповнені обов’язкові поля: <ul> $error </ ul > </ div > " ;
+        // Якщо не заповнені обов’язкові поля
+        $_SESSION [' Reg '] [' res '] = " <div class='error'> Чи не заповнені обов’язкові поля: <ul> $error </ ul > </ div > " ;
         $_SESSION [' Reg '] [' login '] = $login ;
         $_SESSION [' Reg '] [' name '] = $name ;
         $_SESSION [' Reg '] [' email '] = $email ;
@@ -266,22 +266,22 @@ function authorization () {
     $pass = trim ($_POST [' pass '] ) ;
     
     if ( empty ($login ) OR empty ($pass )) {
-        / / Якщо порожні поля логін / пароль
+        // Якщо порожні поля логін / пароль
         $_SESSION [' Auth '] [' error '] = " Поля логін / пароль повинні бути заповнені ! " ;
     } else {
-        / / Якщо отримані дані з полів логін / пароль
+        // Якщо отримані дані з полів логін / пароль
         $pass = md5 ($pass ) ;
         
         $query = " SELECT customer_id , name , email FROM customers WHERE login = '$login ' AND password = '$pass ' LIMIT 1 " ;
         $res = mysql_query ($query ) or die ( mysql_error ( )) ;
         if ( mysql_num_rows ($res ) == 1 ) {
-            / / Якщо авторизація успішна
+            // Якщо авторизація успішна
             $row = mysql_fetch_row ($res ) ;
             $_SESSION [' Auth '] [' customer_id '] = $row [0];
             $_SESSION [' Auth '] [' user '] = $row [ 1 ] ;
             $_SESSION [' Auth '] [' email '] = $row [ 2 ] ;
         } else {
-            / / Якщо невірний логін / пароль
+            // Якщо невірний логін / пароль
             $_SESSION [' Auth '] [' error '] = " Логін / пароль введені невірно ! " ;
         }
     }
