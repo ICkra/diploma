@@ -100,13 +100,13 @@ function informer () {
     $res = mysql_query ($query ) or die ( mysql_query ( )) ;
     
     $informers = array ();
-    $name = '' ; / / Прапор імені інформера
+    $name = '' ; // Прапор імені інформера
     while ($row = mysql_fetch_assoc ($res )) {
-        if ($row [' informer_name '] ! = $name ) { / / якщо такого інформера в масиві ще немає
-            $informers [$row [' informer_id '] ] [ ] = $row [' informer_name '] ; / / Додаємо інформер в масив
+        if ($row [' informer_name '] != $name ) { // якщо такого інформера в масиві ще немає
+            $informers [$row [' informer_id '] ] [ ] = $row [' informer_name '] ; // Додаємо інформер в масив
             $name = $row [' informer_name '] ;
         }
-        $informers [$row [' parent_informer '] ] [' sub '] [$row [' link_id '] ] = $row [' link_name '] ; / / Заносимо сторінки в інформер
+        $informers [$row [' parent_informer '] ] [' sub '] [$row [' link_id '] ] = $row [' link_name '] ; // Заносимо сторінки в інформер
     }
     return $informers ;
 }
@@ -125,8 +125,8 @@ function get_text_informer ($informer_id ) {
     return $text_informer ;
 }
 /* === Отримання тексту інформера === */
-
-                    ( SELECT vys_firma_id , vys_firma_name FROM vys_firmas WHERE vys_firma_id = $category ) ";
+function get_text_informer2 ($informer_id ) {
+    $query = " SELECT vys_firma_id , vys_firma_name FROM vys_firmas WHERE vys_firma_id = $category ";
     $res = mysql_query ($query ) ;
     $vys_firma_name = array ();
     while ($row = mysql_fetch_assoc ($res )) {
